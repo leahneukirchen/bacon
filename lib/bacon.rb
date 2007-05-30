@@ -10,6 +10,18 @@ module Bacon
        Counter[:failed],         Counter[:error]]
   end
 
+  def self.handle_specification(name)
+    puts name
+    yield
+    puts
+  end
+
+  def self.handle_requirement(description)
+    print "- #{description}"
+    error = yield
+    puts " [#{error}]"
+  end
+
   class Error < RuntimeError
     attr_accessor :count_as
     
@@ -25,9 +37,9 @@ module Bacon
       @after = []
       @name = name
       
-      puts name
-      instance_eval(&block)
-      puts
+      Bacon.handle_specification(name) do
+        instance_eval(&block)
+      end
     end
     
     def before(&block); @before << block; end
@@ -35,35 +47,36 @@ module Bacon
     
     def it(description, &block)
       Bacon::Counter[:requirements] += 1
-      run_specify description, block
+      run_requirement description, block
     end
     
-    def run_specify(description, spec)
-      print "- #{description}"
-      
-      @before.each { |block| instance_eval(&block) }
-      instance_eval(&spec)
-      @after.each { |block| instance_eval(&block) }
-    rescue Object => e
-      if e.kind_of? Bacon::Error
-        puts " [#{e.count_as.to_s.upcase}]"
-        Bacon::Counter[e.count_as] += 1
-      else
-        puts " [ERROR: #{e.class}]"
-        Bacon::Counter[:errors] += 1
+    def run_requirement(description, spec)
+      Bacon.handle_requirement description do
+        begin
+          @before.each { |block| instance_eval(&block) }
+          instance_eval(&spec)
+          @after.each { |block| instance_eval(&block) }
+        rescue Object => e
+          ErrorLog << "#{e.class}: #{e.message}\n"
+          e.backtrace.find_all { |line| line !~ /\/bacon.rb:\d+/ }.
+            each_with_index { |line, i|
+            ErrorLog << "\t#{line}#{i==0?": "+@name + " - "+description:""}\n"
+          }
+          ErrorLog << "\n"
+          
+          if e.kind_of? Bacon::Error
+            Bacon::Counter[e.count_as] += 1
+            e.count_as.to_s.upcase
+          else
+            Bacon::Counter[:errors] += 1
+            "ERROR: #{e.class}"
+        end
+        else
+          ""
+        end
       end
-      
-      ErrorLog << "#{e.class}: #{e.message}\n"
-      e.backtrace.find_all { |line| line !~ /\/bacon.rb:\d+/ }.
-        each_with_index { |line, i|
-        ErrorLog << "\t#{line}#{i==0?": "+@name + " - "+description:""}\n"
-      }
-      ErrorLog << "\n"
-    else
-      puts
     end
   end
-
 end
 
 
