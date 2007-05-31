@@ -93,7 +93,14 @@ end
 require 'bacon'
 
 Bacon.extend Bacon.const_get(output)
-at_exit { Bacon.handle_summary }
+at_exit {
+  Bacon.handle_summary
+  if $!
+    raise $!
+  elsif Bacon::Counter[:errors] + Bacon::Counter[:failed] > 0
+    exit 1
+  end
+}
 
 files.each { |file|
   load file
