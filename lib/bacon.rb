@@ -74,11 +74,15 @@ module Bacon
           else
             Bacon::Counter[:errors] += 1
             "ERROR: #{e.class}"
-        end
+          end
         else
           ""
         end
-      end
+      end      
+    end
+
+    def raise?(*args, &block)
+      block.raise?(*args)
     end
   end
 end
@@ -100,11 +104,18 @@ end
 class Proc
   def raise?(*exceptions)
     call
-  rescue *(exceptions.empty? ? RuntimeError : exceptions)
-    true
-  rescue
-    false
+  rescue *(exceptions.empty? ? RuntimeError : exceptions) => e
+    e
+  # do not rescue other exceptions.
   else
+    false
+  end
+end
+
+class Float
+  def close?(to, delta)
+    (to.to_f - self).abs <= delta.to_f
+  rescue
     false
   end
 end
@@ -119,6 +130,7 @@ class Object
   end
 end
 
+
 class Should
   # Kills ==, ===, =~, eql?, equal?, frozen?, instance_of?, is_a?,
   # kind_of?, nil?, respond_to?, tainted?
@@ -131,9 +143,14 @@ class Should
     @negated = false
   end
 
-  def not
+  def not(*args, &block)
     @negated = !@negated
-    self
+    
+    if args.empty?
+      self
+    else
+      be(*args, &block)
+    end
   end
 
   def be(*args, &block)
@@ -150,17 +167,32 @@ class Should
   alias an be
   
   def satisfy(*args, &block)
-    unless @negated ^ yield(@object, *args)
-      raise Bacon::Error.new(:failed, "")
+    if args.size == 1 && String === args.first
+      description = args.shift
+    else
+      description = ""
+    end
+
+    r = yield(@object, *args)
+    unless @negated ^ r
+      raise Bacon::Error.new(:failed, description)
     end
     Bacon::Counter[:requirements] += 1
     @negated ^ r ? r : false
   end
 
   def method_missing(name, *args, &block)
-    satisfy { |x|
-      name = "#{name}?"  if name.to_s =~ /\w/
+    name = "#{name}?"  if name.to_s =~ /\w/
+    
+    desc = @negated ? "not " : ""
+    desc << @object.inspect << "." << name.to_s
+    desc << "(" << args.map{|x|x.inspect}.join(", ") << ")"
+      
+    satisfy(desc) { |x|
       x.__send__(name, *args, &block)
     }
   end
+
+  def equal(value); self == value; end
+  def match(value); self =~ value; end
 end
