@@ -7,7 +7,7 @@ module Bacon
   def self.result_string
     "%d specifications (%d requirements), %d failures, %d errors" % 
       [Counter[:specifications], Counter[:requirements],
-       Counter[:failed],         Counter[:error]]
+       Counter[:failed],         Counter[:errors]]
   end
 
   def self.handle_specification(name)
@@ -19,7 +19,11 @@ module Bacon
   def self.handle_requirement(description)
     print "- #{description}"
     error = yield
-    puts " [#{error}]"
+    if error.empty?
+      puts
+    else
+      puts " [#{error}]"
+    end
   end
 
   class Error < RuntimeError
@@ -46,7 +50,7 @@ module Bacon
     def after(&block);  @after << block; end
     
     def it(description, &block)
-      Bacon::Counter[:requirements] += 1
+      Bacon::Counter[:specifications] += 1
       run_requirement description, block
     end
     
@@ -111,7 +115,6 @@ class Object
   end
 
   def describe(name, &block)
-    Bacon::Counter[:specifications] += 1
     Bacon::Context.new(name, &block)
   end
 end
@@ -150,8 +153,8 @@ class Should
     unless @negated ^ yield(@object, *args)
       raise Bacon::Error.new(:failed, "")
     end
-    Bacon::Counter[:passed] += 1
-    @object
+    Bacon::Counter[:requirements] += 1
+    @negated ^ r ? r : false
   end
 
   def method_missing(name, *args, &block)
