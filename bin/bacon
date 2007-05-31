@@ -4,6 +4,7 @@
 require 'optparse'
 
 automatic = false
+output = 'SpecDoxOutput'
 
 opts = OptionParser.new("", 24, '  ') { |opts|
   opts.banner = "Usage: bacon [options] [files | -a] [-- untouched arguments]"
@@ -37,9 +38,11 @@ opts = OptionParser.new("", 24, '  ') { |opts|
   opts.separator ""
   opts.separator "bacon options:"
 
-  opts.on("-s", "--specdox", "do AgileDox-like output (default)") { }
+  opts.on("-s", "--specdox", "do AgileDox-like output (default)") {
+    output = 'SpecDoxOutput'
+  }
   opts.on("-q", "--quiet",   "do Test::Unit-like non-verbose output") {
-    # TODO
+    output = 'TestUnitOutput'
   }
 
   opts.on("-a", "--automatic", "gather tests from ./test/, include ./lib/") {
@@ -89,10 +92,10 @@ end
 
 require 'bacon'
 
+Bacon.extend Bacon.const_get(output)
+at_exit { Bacon.handle_summary }
+
 files.each { |file|
   load file
 }
 
-puts Bacon::ErrorLog
-puts Bacon.result_string
-p Bacon::Counter

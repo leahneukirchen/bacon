@@ -7,27 +7,57 @@ module Bacon
   Counter = Hash.new(0)
   ErrorLog = ""
 
-  def self.result_string
-    "%d specifications (%d requirements), %d failures, %d errors" % 
-      [Counter[:specifications], Counter[:requirements],
-       Counter[:failed],         Counter[:errors]]
-  end
-
-  def self.handle_specification(name)
-    puts name
-    yield
-    puts
-  end
-
-  def self.handle_requirement(description)
-    print "- #{description}"
-    error = yield
-    if error.empty?
+  module SpecDoxOutput
+    def handle_specification(name)
+      puts name
+      yield
       puts
-    else
-      puts " [#{error}]"
+    end
+
+    def handle_requirement(description)
+      print "- #{description}"
+      error = yield
+      if error.empty?
+        puts
+      else
+        puts " [#{error}]"
+      end
+    end
+
+    def handle_summary
+      puts Bacon::ErrorLog
+      puts "%d specifications (%d requirements), %d failures, %d errors" % 
+           [Counter[:specifications], Counter[:requirements],
+            Counter[:failed],         Counter[:errors]]
+      p Bacon::Counter
     end
   end
+
+  module TestUnitOutput
+    def handle_specification(name)
+      yield
+    end
+
+    def handle_requirement(description)
+      error = yield
+      if error.empty?
+        print "."
+      else
+        print error[0..0]
+      end
+    end
+
+    def handle_summary
+      puts
+      puts Bacon::ErrorLog
+      puts "%d tests, %d assertions, %d failures, %d errors" % 
+           [Counter[:specifications], Counter[:requirements],
+            Counter[:failed],         Counter[:errors]]
+      p Bacon::Counter
+    end
+  end
+
+  extend SpecDoxOutput          # default
 
   class Error < RuntimeError
     attr_accessor :count_as
