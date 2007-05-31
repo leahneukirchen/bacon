@@ -1,6 +1,9 @@
 # Bacon -- small RSpec clone.
+# "Truth will sooner come out from error than from confusion." ---Francis Bacon
 
 module Bacon
+  VERSION = "0.2"
+  
   Counter = Hash.new(0)
   ErrorLog = ""
 
