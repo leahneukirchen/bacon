@@ -57,6 +57,32 @@ module Bacon
     end
   end
 
+  module TapOutput
+    def handle_specification(name)
+      yield
+    end
+
+    def handle_requirement(description)
+      Bacon::ErrorLog.replace ""
+      error = yield
+      if error.empty?
+        printf "ok %-8d # %s\n" % [Counter[:specifications], description]
+      else
+        printf "not ok %-4d # %s: %s\n" %
+          [Counter[:specifications], description, error]
+        puts Bacon::ErrorLog.strip.gsub(/^/, '# ') 
+      end
+    end
+
+    def handle_summary
+      puts "1..#{Counter[:specifications]}"
+      puts "# %d tests, %d assertions, %d failures, %d errors" % 
+           [Counter[:specifications], Counter[:requirements],
+            Counter[:failed],         Counter[:errors]]
+      p Bacon::Counter
+    end
+  end
+
   extend SpecDoxOutput          # default
 
   class Error < RuntimeError
@@ -95,7 +121,7 @@ module Bacon
           @after.each { |block| instance_eval(&block) }
         rescue Object => e
           ErrorLog << "#{e.class}: #{e.message}\n"
-          e.backtrace.find_all { |line| line !~ /\/bacon.rb:\d+/ }.
+          e.backtrace.find_all { |line| line !~ /bin\/bacon|\/bacon\.rb:\d+/ }.
             each_with_index { |line, i|
             ErrorLog << "\t#{line}#{i==0?": "+@name + " - "+description:""}\n"
           }

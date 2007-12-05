@@ -45,6 +45,10 @@ opts = OptionParser.new("", 24, '  ') { |opts|
     output = 'TestUnitOutput'
   }
 
+  opts.on("-p", "--tap",   "do TAP (Test Anything Protocol) output") {
+    output = 'TapOutput'
+  }
+
   opts.on("-a", "--automatic", "gather tests from ./test/, include ./lib/") {
     $LOAD_PATH.unshift "lib"  if File.directory? "lib"
     automatic = true
