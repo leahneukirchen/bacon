@@ -6,6 +6,9 @@ module Bacon
   
   Counter = Hash.new(0)
   ErrorLog = ""
+  Shared = Hash.new { |_, name|
+    raise NameError, "no such context: #{name.inspect}"
+  }
 
   module SpecDoxOutput
     def handle_specification(name)
@@ -104,15 +107,19 @@ module Bacon
         instance_eval(&block)
       end
     end
-    
+
     def before(&block); @before << block; end
     def after(&block);  @after << block; end
-    
+
+    def behaves_like(name)
+      instance_eval &Bacon::Shared[name]
+    end
+
     def it(description, &block)
       Bacon::Counter[:specifications] += 1
       run_requirement description, block
     end
-    
+
     def run_requirement(description, spec)
       Bacon.handle_requirement description do
         begin
@@ -190,6 +197,10 @@ module Kernel
 
   def describe(name, &block)
     Bacon::Context.new(name, &block)
+  end
+
+  def shared(name, &block)
+    Bacon::Shared[name] = block
   end
 end
 

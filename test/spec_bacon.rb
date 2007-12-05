@@ -258,3 +258,33 @@ describe "before/after" do
     @b.should.equal 2
   end
 end
+
+shared "a shared context" do
+  it "gets called where it is included" do
+    true.should.be.true
+  end
+end
+
+shared "another shared context" do
+  it "can access data" do
+    @magic.should.be.equal 42
+  end
+end
+
+describe "shared/behaves_like" do
+  behaves_like "a shared context"
+
+  ctx = self
+  it "raises NameError when the context is not found" do
+    lambda {
+      ctx.behaves_like "whoops"
+    }.should.raise NameError
+  end
+
+  behaves_like "a shared context"
+
+  before {
+    @magic = 42
+  }
+  behaves_like "another shared context"
+end
