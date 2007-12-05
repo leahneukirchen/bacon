@@ -10,6 +10,9 @@ module Bacon
     raise NameError, "no such context: #{name.inspect}"
   }
 
+  RestrictName    = //  unless defined? RestrictName
+  RestrictContext = //  unless defined? RestrictContext
+
   module SpecDoxOutput
     def handle_specification(name)
       puts name
@@ -102,7 +105,8 @@ module Bacon
       @before = []
       @after = []
       @name = name
-      
+
+      return  unless name =~ RestrictContext
       Bacon.handle_specification(name) do
         instance_eval(&block)
       end
@@ -116,6 +120,7 @@ module Bacon
     end
 
     def it(description, &block)
+      return  unless description =~ RestrictName
       Bacon::Counter[:specifications] += 1
       run_requirement description, block
     end
