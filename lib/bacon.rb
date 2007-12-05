@@ -31,7 +31,7 @@ module Bacon
     end
 
     def handle_summary
-      puts Bacon::ErrorLog
+      print Bacon::ErrorLog
       puts "%d specifications (%d requirements), %d failures, %d errors" % 
            [Counter[:specifications], Counter[:requirements],
             Counter[:failed],         Counter[:errors]]
