@@ -181,6 +181,14 @@ class Proc
   else
     false
   end
+
+  def throw?(sym)
+    catch(sym) {
+      call
+      return false
+    }
+    return true
+  end
 end
 
 class Float

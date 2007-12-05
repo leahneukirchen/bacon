@@ -196,6 +196,16 @@ describe "Bacon" do
     lambda { nil.should.not.bla }.should.raise(NoMethodError)
   end
 
+  it "should have should.raise" do
+    lambda { lambda { bla }.should.raise(NameError) }.should succeed
+    lambda { lambda { nil }.should.raise(NameError) }.should fail
+  end
+
+  it "should have should.throw" do
+    lambda { lambda { throw :foo }.should.throw(:foo) }.should succeed
+    lambda { lambda {       :foo }.should.throw(:foo) }.should fail
+  end
+
   it "should have should <operator> (>, >=, <, <=, ===)" do
     lambda { 2.should.be > 1 }.should succeed
     lambda { 1.should.be > 2 }.should fail
