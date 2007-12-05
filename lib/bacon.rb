@@ -20,16 +20,16 @@ module Bacon
   RestrictContext = //  unless defined? RestrictContext
 
   def self.summary_on_exit
-    return  if Bacon::Counter[:installed_summary] > 0
+    return  if Counter[:installed_summary] > 0
     at_exit {
-      Bacon.handle_summary
+      handle_summary
       if $!
         raise $!
-      elsif Bacon::Counter[:errors] + Bacon::Counter[:failed] > 0
+      elsif Counter[:errors] + Counter[:failed] > 0
         exit 1
       end
     }
-    Bacon::Counter[:installed_summary] += 1
+    Counter[:installed_summary] += 1
   end
 
   module SpecDoxOutput
@@ -42,18 +42,13 @@ module Bacon
     def handle_requirement(description)
       print "- #{description}"
       error = yield
-      if error.empty?
-        puts
-      else
-        puts " [#{error}]"
-      end
+      puts error.empty? ? "" : " [#{error}]"
     end
 
     def handle_summary
-      print Bacon::ErrorLog
+      print ErrorLog
       puts "%d specifications (%d requirements), %d failures, %d errors" % 
-           [Counter[:specifications], Counter[:requirements],
-            Counter[:failed],         Counter[:errors]]
+        Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
 
@@ -72,11 +67,9 @@ module Bacon
     end
 
     def handle_summary
-      puts
-      puts Bacon::ErrorLog
+      puts "", ErrorLog
       puts "%d tests, %d assertions, %d failures, %d errors" % 
-           [Counter[:specifications], Counter[:requirements],
-            Counter[:failed],         Counter[:errors]]
+        Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
 
@@ -86,22 +79,21 @@ module Bacon
     end
 
     def handle_requirement(description)
-      Bacon::ErrorLog.replace ""
+      ErrorLog.replace ""
       error = yield
       if error.empty?
         printf "ok %-8d # %s\n" % [Counter[:specifications], description]
       else
         printf "not ok %-4d # %s: %s\n" %
           [Counter[:specifications], description, error]
-        puts Bacon::ErrorLog.strip.gsub(/^/, '# ') 
+        puts ErrorLog.strip.gsub(/^/, '# ') 
       end
     end
 
     def handle_summary
       puts "1..#{Counter[:specifications]}"
       puts "# %d tests, %d assertions, %d failures, %d errors" % 
-           [Counter[:specifications], Counter[:requirements],
-            Counter[:failed],         Counter[:errors]]
+        Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
 
@@ -132,19 +124,19 @@ module Bacon
     def after(&block);  @after << block; end
 
     def behaves_like(name)
-      instance_eval &Bacon::Shared[name]
+      instance_eval(&Shared[name])
     end
 
     def it(description, &block)
       return  unless description =~ RestrictName
-      Bacon::Counter[:specifications] += 1
+      Counter[:specifications] += 1
       run_requirement description, block
     end
 
     def run_requirement(description, spec)
       Bacon.handle_requirement description do
         begin
-          Bacon::Counter[:depth] += 1
+          Counter[:depth] += 1
           @before.each { |block| instance_eval(&block) }
           instance_eval(&spec)
           @after.each { |block| instance_eval(&block) }
@@ -156,28 +148,23 @@ module Bacon
           }
           ErrorLog << "\n"
           
-          if e.kind_of? Bacon::Error
-            Bacon::Counter[e.count_as] += 1
+          if e.kind_of? Error
+            Counter[e.count_as] += 1
             e.count_as.to_s.upcase
           else
-            Bacon::Counter[:errors] += 1
+            Counter[:errors] += 1
             "ERROR: #{e.class}"
           end
         else
           ""
         ensure
-          Bacon::Counter[:depth] -= 1
+          Counter[:depth] -= 1
         end
       end      
     end
 
-    def raise?(*args, &block)
-      block.raise?(*args)
-    end
-
-    def throw?(*args, &block)
-      block.throw?(*args)
-    end
+    def raise?(*args, &block); block.raise?(*args); end
+    def throw?(*args, &block); block.throw?(*args); end
   end
 end
 
@@ -200,8 +187,7 @@ class Proc
     call
   rescue *(exceptions.empty? ? RuntimeError : exceptions) => e
     e
-  # do not rescue other exceptions.
-  else
+  else  # do not rescue other exceptions.
     false
   end
 
@@ -216,11 +202,10 @@ end
 
 class Numeric
   def close?(to, delta)
-    (to.to_f - self).abs <= delta.to_f
-  rescue
-    false
+    (to.to_f - self).abs <= delta.to_f  rescue false
   end
 end
+
 
 class Object
   def should(*args, &block)
@@ -264,8 +249,7 @@ class Should
   end
 
   def be(*args, &block)
-    case args.size
-    when 0
+    if args.empty?
       self
     else
       block = args.shift  unless block_given?
