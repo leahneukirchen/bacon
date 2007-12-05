@@ -35,7 +35,6 @@ module Bacon
       puts "%d specifications (%d requirements), %d failures, %d errors" % 
            [Counter[:specifications], Counter[:requirements],
             Counter[:failed],         Counter[:errors]]
-      p Bacon::Counter
     end
   end
 
@@ -59,7 +58,6 @@ module Bacon
       puts "%d tests, %d assertions, %d failures, %d errors" % 
            [Counter[:specifications], Counter[:requirements],
             Counter[:failed],         Counter[:errors]]
-      p Bacon::Counter
     end
   end
 
@@ -85,7 +83,6 @@ module Bacon
       puts "# %d tests, %d assertions, %d failures, %d errors" % 
            [Counter[:specifications], Counter[:requirements],
             Counter[:failed],         Counter[:errors]]
-      p Bacon::Counter
     end
   end
 

@@ -45,7 +45,6 @@ opts = OptionParser.new("", 24, '  ') { |opts|
   opts.on("-q", "--quiet",   "do Test::Unit-like non-verbose output") {
     output = 'TestUnitOutput'
   }
-
   opts.on("-p", "--tap",   "do TAP (Test Anything Protocol) output") {
     output = 'TapOutput'
   }
