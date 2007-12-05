@@ -135,6 +135,13 @@ describe "Bacon" do
     lambda { lambda { raise "Error" }.should.not.raise }.should fail
   end
 
+  it "should have should.throw" do
+    lambda { lambda { throw :foo }.should.throw(:foo) }.should succeed
+    lambda { lambda {       :foo }.should.throw(:foo) }.should fail
+
+    should.throw(:foo) { throw :foo }
+  end
+
   it "should have should.not.satisfy" do
     lambda { should.not.satisfy { 1 == 2 } }.should succeed
     lambda { should.not.satisfy { 1 == 1 } }.should fail
@@ -194,20 +201,6 @@ describe "Bacon" do
 
     lambda { nil.should.bla }.should.raise(NoMethodError)
     lambda { nil.should.not.bla }.should.raise(NoMethodError)
-  end
-
-  it "should have should.raise" do
-    lambda { lambda { bla }.should.raise(NameError) }.should succeed
-    lambda { lambda { nil }.should.raise(NameError) }.should fail
-
-    should.raise(NameError) { bla }
-  end
-
-  it "should have should.throw" do
-    lambda { lambda { throw :foo }.should.throw(:foo) }.should succeed
-    lambda { lambda {       :foo }.should.throw(:foo) }.should fail
-
-    should.throw(:foo) { throw :foo }
   end
 
   it "should have should <operator> (>, >=, <, <=, ===)" do
