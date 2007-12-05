@@ -183,6 +183,10 @@ class Object
   def should(*args, &block)
     Should.new(self).be(*args, &block)
   end
+end
+
+module Kernel
+  private
 
   def describe(name, &block)
     Bacon::Context.new(name, &block)
