@@ -13,6 +13,19 @@ module Bacon
   RestrictName    = //  unless defined? RestrictName
   RestrictContext = //  unless defined? RestrictContext
 
+  def self.summary_on_exit
+    return  if Bacon::Counter[:installed_summary] > 0
+    at_exit {
+      Bacon.handle_summary
+      if $!
+        raise $!
+      elsif Bacon::Counter[:errors] + Bacon::Counter[:failed] > 0
+        exit 1
+      end
+    }
+    Bacon::Counter[:installed_summary] += 1
+  end
+
   module SpecDoxOutput
     def handle_specification(name)
       puts name
