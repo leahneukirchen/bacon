@@ -270,7 +270,7 @@ class Should
   end
 
   def method_missing(name, *args, &block)
-    name = "#{name}?"  if name.to_s =~ /\w/
+    name = "#{name}?"  if name.to_s =~ /\w[^?]\z/
     
     desc = @negated ? "not " : ""
     desc << @object.inspect << "." << name.to_s
@@ -283,4 +283,7 @@ class Should
 
   def equal(value); self == value; end
   def match(value); self =~ value; end
+
+  def identical_to(value); self.equal? value; end
+  alias same_as identical_to
 end

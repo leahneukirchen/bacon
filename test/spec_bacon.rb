@@ -162,6 +162,14 @@ describe "Bacon" do
 #    lambda { "string".should.not =~ "strin" }.should fail
   end
 
+  it "should have should.be.identical_to/same_as" do
+    lambda { s = "string"; s.should.be.identical_to s }.should succeed
+    lambda { "string".should.be.identical_to "string" }.should fail
+
+    lambda { s = "string"; s.should.be.same_as s }.should succeed
+    lambda { "string".should.be.same_as "string" }.should fail
+  end
+
   it "should have should.respond_to" do
     lambda { "foo".should.respond_to :to_s }.should succeed
     lambda { 5.should.respond_to :to_str }.should fail
