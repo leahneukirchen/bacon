@@ -138,6 +138,7 @@ module Bacon
     def run_requirement(description, spec)
       Bacon.handle_requirement description do
         begin
+          Bacon::Counter[:depth] += 1
           @before.each { |block| instance_eval(&block) }
           instance_eval(&spec)
           @after.each { |block| instance_eval(&block) }
@@ -158,6 +159,8 @@ module Bacon
           end
         else
           ""
+        ensure
+          Bacon::Counter[:depth] -= 1
         end
       end      
     end
@@ -275,10 +278,12 @@ class Should
     end
 
     r = yield(@object, *args)
-    unless @negated ^ r
-      raise Bacon::Error.new(:failed, description)
+    if Bacon::Counter[:depth] > 0
+      unless @negated ^ r
+        raise Bacon::Error.new(:failed, description)
+      end
+      Bacon::Counter[:requirements] += 1
     end
-    Bacon::Counter[:requirements] += 1
     @negated ^ r ? r : false
   end
 
