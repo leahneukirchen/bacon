@@ -247,6 +247,11 @@ describe "Bacon" do
     lambda { (1+1).should.not.be equal_string("2") }.should fail
     lambda { (1+2).should.not.be equal_string("2") }.should succeed
   end
+
+  it "should have should.flunk" do
+    lambda { should.flunk }.should fail
+    lambda { should.flunk "yikes" }.should fail
+  end
 end
 
 describe "before/after" do

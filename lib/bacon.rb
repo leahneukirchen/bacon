@@ -279,9 +279,7 @@ class Should
 
     r = yield(@object, *args)
     if Bacon::Counter[:depth] > 0
-      unless @negated ^ r
-        raise Bacon::Error.new(:failed, description)
-      end
+      raise Bacon::Error.new(:failed, description)  unless @negated ^ r
       Bacon::Counter[:requirements] += 1
     end
     @negated ^ r ? r : false
@@ -304,4 +302,8 @@ class Should
 
   def identical_to(value); self.equal? value; end
   alias same_as identical_to
+
+  def flunk(reason="Flunked")
+    raise Bacon::Error.new(:failed, reason)
+  end
 end
