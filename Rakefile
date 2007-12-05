@@ -69,7 +69,7 @@ end
 
 desc "Run all the fast tests"
 task :test do
-  sh "bin/bacon -Ilib --automatic --quiet"
+  ruby "bin/bacon -Ilib --automatic --quiet"
 end
 
 
