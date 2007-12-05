@@ -11,7 +11,7 @@ task :predist => [:chmod, :changelog, :rdoc]
 
 
 desc "Make an archive as .tar.gz"
-task :dist => :fulltest do
+task :dist => :test do
   sh "export DARCS_REPO=#{File.expand_path "."}; " +
      "darcs dist -d bacon-#{get_darcs_tree_version}"
 end
@@ -47,7 +47,7 @@ def get_darcs_tree_version
 end
 
 def manifest
-  `darcs query manifest`.split("\n").map { |f| f.gsub(/\A\.\//, '') }
+  `darcs query manifest 2>/dev/null`.split("\n").map { |f| f.gsub(/\A\.\//, '') }
 end
 
 
@@ -86,7 +86,7 @@ rescue LoadError
   # Too bad.
 else
   spec = Gem::Specification.new do |s|
-    s.name            = "rack"
+    s.name            = "bacon"
     s.version         = get_darcs_tree_version
     s.platform        = Gem::Platform::RUBY
     s.summary         = "a small RSpec clone"
@@ -122,7 +122,7 @@ desc "Generate RDoc documentation"
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--line-numbers' << '--inline-source' <<
     '--main' << 'README' <<
-    '--title' << 'Rack Documentation' <<
+    '--title' << 'Bacon Documentation' <<
     '--charset' << 'utf-8'
   rdoc.rdoc_dir = "doc"
   rdoc.rdoc_files.include 'README'
