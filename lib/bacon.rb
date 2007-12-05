@@ -155,6 +155,10 @@ module Bacon
     def raise?(*args, &block)
       block.raise?(*args)
     end
+
+    def throw?(*args, &block)
+      block.throw?(*args)
+    end
   end
 end
 

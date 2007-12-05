@@ -199,11 +199,15 @@ describe "Bacon" do
   it "should have should.raise" do
     lambda { lambda { bla }.should.raise(NameError) }.should succeed
     lambda { lambda { nil }.should.raise(NameError) }.should fail
+
+    should.raise(NameError) { bla }
   end
 
   it "should have should.throw" do
     lambda { lambda { throw :foo }.should.throw(:foo) }.should succeed
     lambda { lambda {       :foo }.should.throw(:foo) }.should fail
+
+    should.throw(:foo) { throw :foo }
   end
 
   it "should have should <operator> (>, >=, <, <=, ===)" do
