@@ -1,5 +1,11 @@
 # Bacon -- small RSpec clone.
+#
 # "Truth will sooner come out from error than from confusion." ---Francis Bacon
+
+# Copyright (C) 2007 Christian Neukirchen <purl.org/net/chneukirchen>
+#
+# Bacon is freely distributable under the terms of an MIT-style license.
+# See COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 module Bacon
   VERSION = "0.2"
