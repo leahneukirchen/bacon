@@ -245,7 +245,7 @@ class Should
     
     desc = @negated ? "not " : ""
     desc << @object.inspect << "." << name.to_s
-    desc << "(" << args.map{|x|x.inspect}.join(", ") << ")"
+    desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
       
     satisfy(desc) { |x|
       x.__send__(name, *args, &block)
