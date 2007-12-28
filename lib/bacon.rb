@@ -9,7 +9,7 @@
 
 module Bacon
   VERSION = "0.2"
-  
+
   Counter = Hash.new(0)
   ErrorLog = ""
   Shared = Hash.new { |_, name|
@@ -47,7 +47,7 @@ module Bacon
 
     def handle_summary
       print ErrorLog
-      puts "%d specifications (%d requirements), %d failures, %d errors" % 
+      puts "%d specifications (%d requirements), %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
@@ -68,7 +68,7 @@ module Bacon
 
     def handle_summary
       puts "", ErrorLog
-      puts "%d tests, %d assertions, %d failures, %d errors" % 
+      puts "%d tests, %d assertions, %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
@@ -86,13 +86,13 @@ module Bacon
       else
         printf "not ok %-4d # %s: %s\n" %
           [Counter[:specifications], description, error]
-        puts ErrorLog.strip.gsub(/^/, '# ') 
+        puts ErrorLog.strip.gsub(/^/, '# ')
       end
     end
 
     def handle_summary
       puts "1..#{Counter[:specifications]}"
-      puts "# %d tests, %d assertions, %d failures, %d errors" % 
+      puts "# %d tests, %d assertions, %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
   end
@@ -101,13 +101,13 @@ module Bacon
 
   class Error < RuntimeError
     attr_accessor :count_as
-    
+
     def initialize(count_as, message)
       @count_as = count_as
       super message
     end
   end
-  
+
   class Context
     def initialize(name, &block)
       @before = []
@@ -144,10 +144,10 @@ module Bacon
           ErrorLog << "#{e.class}: #{e.message}\n"
           e.backtrace.find_all { |line| line !~ /bin\/bacon|\/bacon\.rb:\d+/ }.
             each_with_index { |line, i|
-            ErrorLog << "\t#{line}#{i==0?": "+@name + " - "+description:""}\n"
+            ErrorLog << "\t#{line}#{i==0 ? ": #@name - #{description}" : ""}\n"
           }
           ErrorLog << "\n"
-          
+
           if e.kind_of? Error
             Counter[e.count_as] += 1
             e.count_as.to_s.upcase
@@ -160,7 +160,7 @@ module Bacon
         ensure
           Counter[:depth] -= 1
         end
-      end      
+      end
     end
 
     def raise?(*args, &block); block.raise?(*args); end
@@ -184,10 +184,18 @@ end
 
 class Proc
   def raise?(*exceptions)
+    exceptions << RuntimeError if exceptions.empty?
     call
-  rescue *(exceptions.empty? ? RuntimeError : exceptions) => e
-    e
-  else  # do not rescue other exceptions.
+
+    # Only to work in 1.9.0, rescue with splat doesn't work there right now
+  rescue Object => e
+    case e
+    when *exceptions
+      e
+    else
+      raise e
+    end
+  else
     false
   end
 
@@ -232,7 +240,7 @@ class Should
   instance_methods.each { |method|
     undef_method method  if method =~ /\?|^\W+$/
   }
-  
+
   def initialize(object)
     @object = object
     @negated = false
@@ -240,7 +248,7 @@ class Should
 
   def not(*args, &block)
     @negated = !@negated
-    
+
     if args.empty?
       self
     else
@@ -256,10 +264,10 @@ class Should
       satisfy(*args, &block)
     end
   end
-    
+
   alias a  be
   alias an be
-  
+
   def satisfy(*args, &block)
     if args.size == 1 && String === args.first
       description = args.shift
@@ -277,11 +285,11 @@ class Should
 
   def method_missing(name, *args, &block)
     name = "#{name}?"  if name.to_s =~ /\w[^?]\z/
-    
+
     desc = @negated ? "not " : ""
     desc << @object.inspect << "." << name.to_s
     desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
-      
+
     satisfy(desc) { |x|
       x.__send__(name, *args, &block)
     }
