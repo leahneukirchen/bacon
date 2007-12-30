@@ -165,6 +165,7 @@ module Bacon
 
     def raise?(*args, &block); block.raise?(*args); end
     def throw?(*args, &block); block.throw?(*args); end
+    def change?(*args, &block); block.change?(*args); end
   end
 end
 
@@ -205,6 +206,13 @@ class Proc
       return false
     }
     return true
+  end
+
+  def change?
+    pre_result = yield
+    called = call
+    post_result = yield
+    pre_result != post_result
   end
 end
 
