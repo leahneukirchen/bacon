@@ -123,8 +123,10 @@ module Bacon
     def before(&block); @before << block; end
     def after(&block);  @after << block; end
 
-    def behaves_like(name)
-      instance_eval(&Shared[name])
+    def behaves_like(*names)
+      names.each do |name|
+        instance_eval(&Shared[name])
+      end
     end
 
     def it(description, &block)
