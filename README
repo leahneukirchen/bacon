@@ -112,6 +112,7 @@ It also supports TAP:
 * should.match
 * should.be.identical_to / should.be.same_as
 * should.raise(*exceptions) { }
+* should.change { }
 * should.throw(symbol) { }
 * should.satisfy { |object| }
 
@@ -120,6 +121,7 @@ It also supports TAP:
 
 * Object#true?
 * Object#false?
+* Proc#change?
 * Proc#raise?
 * Proc#throw?
 * Numeric#close?
