@@ -53,9 +53,7 @@ module Bacon
   end
 
   module TestUnitOutput
-    def handle_specification(name)
-      yield
-    end
+    def handle_specification(name)  yield  end
 
     def handle_requirement(description)
       error = yield
@@ -74,9 +72,7 @@ module Bacon
   end
 
   module TapOutput
-    def handle_specification(name)
-      yield
-    end
+    def handle_specification(name)  yield  end
 
     def handle_requirement(description)
       ErrorLog.replace ""
@@ -110,23 +106,18 @@ module Bacon
 
   class Context
     def initialize(name, &block)
-      @before = []
-      @after = []
       @name = name
+      @before, @after = [], []
 
       return  unless name =~ RestrictContext
-      Bacon.handle_specification(name) do
-        instance_eval(&block)
-      end
+      Bacon.handle_specification(name) { instance_eval(&block) }
     end
 
     def before(&block); @before << block; end
     def after(&block);  @after << block; end
 
     def behaves_like(*names)
-      names.each do |name|
-        instance_eval(&Shared[name])
-      end
+      names.each { |name| instance_eval(&Shared[name]) }
     end
 
     def it(description, &block)
@@ -190,7 +181,7 @@ class Proc
     exceptions << RuntimeError if exceptions.empty?
     call
 
-    # Only to work in 1.9.0, rescue with splat doesn't work there right now
+  # Only to work in 1.9.0, rescue with splat doesn't work there right now
   rescue Object => e
     case e
     when *exceptions
@@ -226,21 +217,14 @@ end
 
 
 class Object
-  def should(*args, &block)
-    Should.new(self).be(*args, &block)
-  end
+  def should(*args, &block)   Should.new(self).be(*args, &block)  end
 end
 
 module Kernel
   private
 
-  def describe(name, &block)
-    Bacon::Context.new(name, &block)
-  end
-
-  def shared(name, &block)
-    Bacon::Shared[name] = block
-  end
+  def describe(name, &block)  Bacon::Context.new(name, &block) end
+  def shared(name, &block)    Bacon::Shared[name] = block      end
 end
 
 
@@ -300,15 +284,12 @@ class Should
     desc << @object.inspect << "." << name.to_s
     desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
 
-    satisfy(desc) { |x|
-      x.__send__(name, *args, &block)
-    }
+    satisfy(desc) { |x| x.__send__(name, *args, &block) }
   end
 
-  def equal(value); self == value; end
-  def match(value); self =~ value; end
-
-  def identical_to(value); self.equal? value; end
+  def equal(value)         self == value      end
+  def match(value)         self =~ value      end
+  def identical_to(value)  self.equal? value  end
   alias same_as identical_to
 
   def flunk(reason="Flunked")
