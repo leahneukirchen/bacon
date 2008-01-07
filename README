@@ -82,12 +82,12 @@ If you want shorter output, use the Test::Unit format:
 It also supports TAP:
 
     $ bacon -p whirlwind.rb
-    ok 1        # should be empty
-    ok 2        # should have zero size
-    ok 3        # should raise on trying fetch any index
-    ok 4        # should have an object identity
-    ok 5        # should be a palindrome
-    not ok 6    # should have super powers: FAILED
+    ok 1        - should be empty
+    ok 2        - should have zero size
+    ok 3        - should raise on trying fetch any index
+    ok 4        - should have an object identity
+    ok 5        - should be a palindrome
+    not ok 6    - should have super powers: FAILED
     # Bacon::Error: no super powers found
     # 	./whirlwind.rb:39: A new array - should have super powers
     # 	./whirlwind.rb:38
