@@ -172,6 +172,7 @@ contexts.
   -s, --specdox            do AgileDox-like output (default)
   -q, --quiet              do Test::Unit-like non-verbose output
   -p, --tap                do TAP (Test Anything Protocol) output
+  -o, --output FORMAT      do FORMAT (SpecDox/TestUnit/Tap) output
   -a, --automatic          gather tests from ./test/, include ./lib/
   -n, --name NAME          runs tests matching regexp NAME
   -t, --testcase TESTCASE  runs tests in TestCases matching regexp TESTCASE

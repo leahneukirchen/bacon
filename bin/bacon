@@ -45,8 +45,13 @@ opts = OptionParser.new("", 24, '  ') { |opts|
   opts.on("-q", "--quiet",   "do Test::Unit-like non-verbose output") {
     output = 'TestUnitOutput'
   }
-  opts.on("-p", "--tap",   "do TAP (Test Anything Protocol) output") {
+  opts.on("-p", "--tap",     "do TAP (Test Anything Protocol) output") {
     output = 'TapOutput'
+  }
+
+  opts.on("-o", "--output FORMAT",
+          "do FORMAT (SpecDox/TestUnit/Tap) output") { |format|
+    output = format + "Output" 
   }
 
   opts.on("-a", "--automatic", "gather tests from ./test/, include ./lib/") {
@@ -96,7 +101,7 @@ end
 
 require 'bacon'
 
-Bacon.extend Bacon.const_get(output)
+Bacon.extend Bacon.const_get(output) rescue abort "No such formatter: #{output}"
 Bacon.summary_on_exit
 
 files.each { |file|
