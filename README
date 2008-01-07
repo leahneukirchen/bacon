@@ -196,6 +196,11 @@ demonstrations, quick checks and doctest tests.
     => false
 
 
+== Thanks to
+
+* Michael Fellinger, for fixing Bacon for 1.9 and various improvements.
+
+
 == Contact
 
 Please mail bugs, suggestions and patches to
