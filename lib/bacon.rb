@@ -122,6 +122,7 @@ module Bacon
 
     def it(description, &block)
       return  unless description =~ RestrictName
+      block ||= lambda { should.flunk "not implemented" }
       Counter[:specifications] += 1
       run_requirement description, block
     end
