@@ -232,8 +232,8 @@ end
 module Kernel
   private
 
-  def describe(name, &block)  Bacon::Context.new(name, &block) end
-  def shared(name, &block)    Bacon::Shared[name] = block      end
+  def describe(name, &block)  Bacon::Context.new(name.to_s, &block) end
+  def shared(name, &block)    Bacon::Shared[name] = block           end
 end
 
 
