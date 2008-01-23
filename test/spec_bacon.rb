@@ -308,3 +308,32 @@ describe "shared/behaves_like" do
   }
   behaves_like "another shared context"
 end
+
+describe 'describe arguments' do
+
+  def check(ctx,name)
+    ctx.should.be.an.instance_of Bacon::Context
+    ctx.instance_variable_get('@name').should == name
+  end
+
+  it 'should work with string' do
+   check(describe( 'string') {},'string')
+  end
+
+  it 'should work with symbols' do
+   check(describe( :behaviour) {},'behaviour')
+  end
+   
+  it 'should work with modules' do
+   check(describe( Bacon) {},'Bacon')
+  end
+
+  it 'should work with namespaced modules' do
+   check(describe( Bacon::Context) {},'Bacon::Context')
+  end
+
+  it 'should work with multiple arguments' do
+   check(describe( Bacon::Context, :empty) {},'Bacon::Context empty')
+  end
+
+end
