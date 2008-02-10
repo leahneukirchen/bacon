@@ -1,5 +1,4 @@
-$: << File.dirname(__FILE__) + '/../lib/'
-require 'bacon'
+require File.join(File.dirname(__FILE__), '../lib/bacon')
 
 # Hooray for meta-testing.
 module MetaTests
