@@ -140,7 +140,12 @@ module Bacon
         begin
           Counter[:depth] += 1
           @before.each { |block| instance_eval(&block) }
+          prev_req = Counter[:requirements]
           instance_eval(&spec)
+          if Counter[:requirements] == prev_req
+            raise Error.new(:missing,
+                            "empty specification: #{@name} #{description}")
+          end
           @after.each { |block| instance_eval(&block) }
         rescue Object => e
           ErrorLog << "#{e.class}: #{e.message}\n"

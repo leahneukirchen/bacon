@@ -3,7 +3,8 @@ require File.join(File.dirname(__FILE__), '../lib/bacon')
 describe "#should shortcut for #it('should')" do
   
   should "be called" do
-    @called= true
+    @called = true
+    @called.should.be == true
   end
   
   should "save some characters by typing should" do
