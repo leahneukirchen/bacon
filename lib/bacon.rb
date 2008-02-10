@@ -192,7 +192,7 @@ end
 
 class Proc
   def raise?(*exceptions)
-    exceptions << RuntimeError if exceptions.empty?
+    exceptions = [RuntimeError]  if exceptions.empty?
     call
 
   # Only to work in 1.9.0, rescue with splat doesn't work there right now

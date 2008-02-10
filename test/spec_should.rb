@@ -19,7 +19,6 @@ describe "#should shortcut for #it('should')" do
     should.satisfy {1==1}
   end
   
-
   count = Bacon::Counter[:specifications]
   should "add new specifications" do
     # XXX this should +=1 but it's +=2

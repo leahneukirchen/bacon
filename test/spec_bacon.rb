@@ -316,23 +316,23 @@ describe 'describe arguments' do
   end
 
   it 'should work with string' do
-   check(describe( 'string') {},'string')
+    check(describe('string') {},'string')
   end
 
   it 'should work with symbols' do
-   check(describe( :behaviour) {},'behaviour')
+    check(describe(:behaviour) {},'behaviour')
   end
    
   it 'should work with modules' do
-   check(describe( Bacon) {},'Bacon')
+    check(describe(Bacon) {},'Bacon')
   end
 
   it 'should work with namespaced modules' do
-   check(describe( Bacon::Context) {},'Bacon::Context')
+    check(describe(Bacon::Context) {},'Bacon::Context')
   end
 
   it 'should work with multiple arguments' do
-   check(describe( Bacon::Context, :empty) {},'Bacon::Context empty')
+    check(describe(Bacon::Context, :empty) {},'Bacon::Context empty')
   end
 
 end
