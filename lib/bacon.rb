@@ -139,14 +139,25 @@ module Bacon
       Bacon.handle_requirement description do
         begin
           Counter[:depth] += 1
-          @before.each { |block| instance_eval(&block) }
-          prev_req = Counter[:requirements]
-          instance_eval(&spec)
-          if Counter[:requirements] == prev_req
-            raise Error.new(:missing,
-                            "empty specification: #{@name} #{description}")
+          rescued = false
+          begin
+            @before.each { |block| instance_eval(&block) }
+            prev_req = Counter[:requirements]
+            instance_eval(&spec)
+          rescue Object => e
+            rescued = true
+            raise e
+          ensure
+            if Counter[:requirements] == prev_req
+              raise Error.new(:missing,
+                              "empty specification: #{@name} #{description}")
+            end
+            begin
+              @after.each { |block| instance_eval(&block) }
+            rescue Object => e
+              raise e  unless rescued
+            end
           end
-          @after.each { |block| instance_eval(&block) }
         rescue Object => e
           ErrorLog << "#{e.class}: #{e.message}\n"
           e.backtrace.find_all { |line| line !~ /bin\/bacon|\/bacon\.rb:\d+/ }.
