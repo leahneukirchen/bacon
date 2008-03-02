@@ -285,8 +285,8 @@ class Should
 
     r = yield(@object, *args)
     if Bacon::Counter[:depth] > 0
-      raise Bacon::Error.new(:failed, description)  unless @negated ^ r
       Bacon::Counter[:requirements] += 1
+      raise Bacon::Error.new(:failed, description)  unless @negated ^ r
     end
     @negated ^ r ? r : false
   end
