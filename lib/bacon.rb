@@ -148,7 +148,7 @@ module Bacon
             rescued = true
             raise e
           ensure
-            if Counter[:requirements] == prev_req
+            if Counter[:requirements] == prev_req and not rescued
               raise Error.new(:missing,
                               "empty specification: #{@name} #{description}")
             end
