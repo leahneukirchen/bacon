@@ -6,7 +6,16 @@ Autotest.add_hook :initialize do |att|
   end
 
   att.add_mapping(%r%^lib/(.*)\.rb$%) do |filename, m|
-    ["test/test_#{m[1]}.rb", "test/spec_#{m[1]}.rb", "spec/spec_#{m[1]}.rb"]
+    lib_path = m[1]
+    spec = File.basename(lib_path)
+    path = File.dirname(lib_path)
+    [
+      "test/#{path}/test_#{spec}.rb",
+      "test/#{path}/spec_#{spec}.rb",
+      "spec/#{path}/spec_#{spec}.rb",
+      # TODO : decide if the follow 'rspec style' name should be allowed?
+      # "spec/#{path}/#{spec}_spec.rb"
+    ]
   end
 
   false
