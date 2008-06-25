@@ -90,9 +90,9 @@ opts = OptionParser.new("", 24, '  ') { |opts|
 files = ARGV
 
 if automatic
-  files.concat Dir["test/test_*.rb"]
-  files.concat Dir["test/spec_*.rb"]
-  files.concat Dir["spec/spec_*.rb"]
+  files.concat Dir["test/**/test_*.rb"]
+  files.concat Dir["test/**/spec_*.rb"]
+  files.concat Dir["spec/**/spec_*.rb"]
 end
 
 if files.empty?
