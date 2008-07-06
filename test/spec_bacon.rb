@@ -1,4 +1,6 @@
+$-w,w = nil, $-w
 require File.join(File.dirname(__FILE__), '../lib/bacon')
+$-w = w
 
 # Hooray for meta-testing.
 module MetaTests
