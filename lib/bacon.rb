@@ -242,23 +242,20 @@ end
 
 
 class Object
-  def should(*args, &block)   Should.new(self).be(*args, &block)  end
+  def should(*args, &block)    Should.new(self).be(*args, &block)         end
 end
 
 module Kernel
   private
-
   def describe(*args, &block)  Bacon::Context.new(args.join(' '), &block) end
-  def shared(name, &block)    Bacon::Shared[name] = block           end
+  def shared(name, &block)     Bacon::Shared[name] = block                end
 end
 
 
 class Should
   # Kills ==, ===, =~, eql?, equal?, frozen?, instance_of?, is_a?,
   # kind_of?, nil?, respond_to?, tainted?
-  instance_methods.each { |method|
-    undef_method method  if method =~ /\?|^\W+$/
-  }
+  instance_methods.each { |name| undef_method name  if name =~ /\?|^\W+$/ }
 
   def initialize(object)
     @object = object
