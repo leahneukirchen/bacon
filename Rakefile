@@ -92,7 +92,7 @@ else
     s.summary         = "a small RSpec clone"
 
     s.description = <<-EOF
-Bacon is a small RSpec clone weighing less than 300 LoC but
+Bacon is a small RSpec clone weighing less than 350 LoC but
 nevertheless providing all essential features.
 
 http://chneukirchen.org/repos/bacon
