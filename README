@@ -196,9 +196,40 @@ demonstrations, quick checks and doctest tests.
     => false
 
 
+== Bacon with autotest
+
+Since version 1.0, there is autotest support.  You need to tag your
+test directories (test/ or spec/) by creating an .bacon file there.
+Autotest then will find it.  bin/bacon needs to be in PATH or RUBYPATH.
+
+
+== Converting specs
+
+spec-converter is a simple tool to convert test-unit or dust style
+tests to test/spec specs.
+
+It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
+
+
 == Thanks to
 
 * Michael Fellinger, for fixing Bacon for 1.9 and various improvements.
+* Gabriele Renzi, for implementing Context#should.
+* James Tucker, for the autotest support
+* everyone contributing bug fixes.
+
+
+== History
+
+* January 7, 2008: First public release 0.9.
+
+* July 6th, 2008: Second public release 1.0.
+  * Add Context#should as a shortcut for Context#it('should ' + _).
+  * describe now supports multiple arguments for better organization.
+  * Empty specifications are now erroneous.
+  * after-blocks run in the case of exceptions too.
+  * Autotest support.
+  * Bug fixes.
 
 
 == Contact
