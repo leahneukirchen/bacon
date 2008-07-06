@@ -8,7 +8,7 @@
 # See COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 module Bacon
-  VERSION = "0.9"
+  VERSION = "1.0"
 
   Counter = Hash.new(0)
   ErrorLog = ""
