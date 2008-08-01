@@ -31,6 +31,7 @@ module Bacon
     }
     Counter[:installed_summary] += 1
   end
+  class <<self; alias summary_at_exit summary_on_exit; end
 
   module SpecDoxOutput
     def handle_specification(name)
