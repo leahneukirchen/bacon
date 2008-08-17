@@ -79,9 +79,9 @@ module Bacon
       ErrorLog.replace ""
       error = yield
       if error.empty?
-        printf "ok %-3d - %s\n" % [Counter[:specifications], description]
+        puts "ok %-3d - %s" % [Counter[:specifications], description]
       else
-        printf "not ok %d - %s: %s\n" %
+        puts "not ok %d - %s: %s" %
           [Counter[:specifications], description, error]
         puts ErrorLog.strip.gsub(/^/, '# ')
       end
