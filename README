@@ -231,6 +231,9 @@ It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
   * Autotest support.
   * Bug fixes.
 
+* XXX, 2008: Third public release 1.1.
+  * Add -Q/--no-backtraces to not details about failed specifications.
+
 
 == Contact
 

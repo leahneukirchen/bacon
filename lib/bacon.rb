@@ -19,6 +19,8 @@ module Bacon
   RestrictName    = //  unless defined? RestrictName
   RestrictContext = //  unless defined? RestrictContext
 
+  Backtraces = true  unless defined? Backtraces
+
   def self.summary_on_exit
     return  if Counter[:installed_summary] > 0
     at_exit {
@@ -47,7 +49,7 @@ module Bacon
     end
 
     def handle_summary
-      print ErrorLog
+      print ErrorLog  if Backtraces
       puts "%d specifications (%d requirements), %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
@@ -66,7 +68,8 @@ module Bacon
     end
 
     def handle_summary
-      puts "", ErrorLog
+      puts
+      puts ErrorLog  if Backtraces
       puts "%d tests, %d assertions, %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
     end
@@ -83,7 +86,7 @@ module Bacon
       else
         puts "not ok %d - %s: %s" %
           [Counter[:specifications], description, error]
-        puts ErrorLog.strip.gsub(/^/, '# ')
+        puts ErrorLog.strip.gsub(/^/, '# ')  if Backtraces
       end
     end
 

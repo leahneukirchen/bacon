@@ -54,6 +54,9 @@ opts = OptionParser.new("", 24, '  ') { |opts|
           "do FORMAT (SpecDox/TestUnit/Tap) output") { |format|
     output = format + "Output" 
   }
+  opts.on("-Q", "--no-backtrace", "don't print backtraces") {
+    Bacon.const_set :Backtraces, false
+  }
 
   opts.on("-a", "--automatic", "gather tests from ./test/, include ./lib/") {
     $LOAD_PATH.unshift "lib"  if File.directory? "lib"
