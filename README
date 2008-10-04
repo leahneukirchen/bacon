@@ -240,8 +240,9 @@ It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
 Please mail bugs, suggestions and patches to
 <mailto:chneukirchen@gmail.com>.
 
-Darcs repository ("darcs send" is welcome for patches):
-http://chneukirchen.org/repos/bacon
+Git repository (patches rebased on HEAD are most welcome):
+http://github.com/chneukirchen/bacon
+git://github.com/chneukirchen/bacon.git
 
 
 == Copying
