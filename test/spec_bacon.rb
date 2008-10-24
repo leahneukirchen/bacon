@@ -292,6 +292,14 @@ describe "before/after" do
     it "should run at the nested level" do
       @c.should.equal 5
     end
+    
+    before do
+      @a = 5
+    end
+    
+    it "should run in the right order" do
+      @a.should.equal 5
+    end
   end
   
   it "should not run from lower level" do
