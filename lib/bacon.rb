@@ -257,11 +257,8 @@ end
 module Kernel
   private
   def describe(*args, &block)
-    befores = instance_variable_get('@before') || []
     context = Bacon::Context.new(args.join(' '), &block)
-    befores.each do |b|
-      context.before &b
-    end
+    (instance_variable_get('@before') || []).each { |b|  context.before &b }
     context.run
     context
   end
