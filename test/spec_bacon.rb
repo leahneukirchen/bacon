@@ -297,6 +297,12 @@ describe "before/after" do
   it "should not run from lower level" do
     @c.should.be.nil
   end
+  
+  describe "when nested at a sibling level" do
+    it "should not run from sibling level" do
+      @c.should.be.nil
+    end
+  end
 end
 
 shared "a shared context" do
