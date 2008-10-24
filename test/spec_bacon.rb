@@ -278,6 +278,25 @@ describe "before/after" do
     @a.should.equal 2
     @b.should.equal 2
   end
+  
+  describe "when nested" do
+    before do
+      @c = 5
+    end
+    
+    it "should run from higher level" do
+      @a.should.equal 2
+      @b.should.equal 2
+    end
+    
+    it "should run at the nested level" do
+      @c.should.equal 5
+    end
+  end
+  
+  it "should not run from lower level" do
+    @c.should.be.nil
+  end
 end
 
 shared "a shared context" do

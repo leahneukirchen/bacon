@@ -109,10 +109,15 @@ module Bacon
   end
 
   class Context
+    attr_reader :name, :block
+    
     def initialize(name, &block)
       @name = name
       @before, @after = [], []
-
+      @block = block
+    end
+    
+    def run
       return  unless name =~ RestrictContext
       Bacon.handle_specification(name) { instance_eval(&block) }
     end
@@ -251,7 +256,15 @@ end
 
 module Kernel
   private
-  def describe(*args, &block)  Bacon::Context.new(args.join(' '), &block) end
+  def describe(*args, &block)
+    befores = instance_variable_get('@before') || []
+    context = Bacon::Context.new(args.join(' '), &block)
+    befores.each do |b|
+      context.before &b
+    end
+    context.run
+    context
+  end
   def shared(name, &block)     Bacon::Shared[name] = block                end
 end
 
