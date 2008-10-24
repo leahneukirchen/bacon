@@ -299,6 +299,7 @@ describe "before/after" do
     
     it "should run in the right order" do
       @a.should.equal 5
+      @a = 2
     end
   end
   

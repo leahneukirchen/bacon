@@ -258,7 +258,9 @@ module Kernel
   private
   def describe(*args, &block)
     context = Bacon::Context.new(args.join(' '), &block)
-    (instance_variable_get('@before') || []).each { |b|  context.before &b }
+    %w[before after].each do |block_type|
+      (instance_variable_get("@#{block_type}") || []).each { |b|  context.send(block_type, &b) }
+    end
     context.run
     context
   end
