@@ -120,6 +120,7 @@ module Bacon
     def run
       return  unless name =~ RestrictContext
       Bacon.handle_specification(name) { instance_eval(&block) }
+      self
     end
 
     def before(&block); @before << block; end
@@ -190,6 +191,13 @@ module Bacon
       end
     end
 
+    def describe(*args, &block)
+      context = Bacon::Context.new(args.join(' '), &block)
+      @before.each { |b| context.before(&b) }
+      @after.each { |b| context.after(&b) }
+      context.run
+    end
+
     def raise?(*args, &block); block.raise?(*args); end
     def throw?(*args, &block); block.throw?(*args); end
     def change?(*args, &block); block.change?(*args); end
@@ -251,20 +259,13 @@ end
 
 
 class Object
-  def should(*args, &block)    Should.new(self).be(*args, &block)         end
+  def should(*args, &block)    Should.new(self).be(*args, &block)             end
 end
 
 module Kernel
   private
-  def describe(*args, &block)
-    context = Bacon::Context.new(args.join(' '), &block)
-    %w[before after].each do |block_type|
-      (instance_variable_get("@#{block_type}") || []).each { |b|  context.send(block_type, &b) }
-    end
-    context.run
-    context
-  end
-  def shared(name, &block)     Bacon::Shared[name] = block                end
+  def describe(*args, &block) Bacon::Context.new(args.join(' '), &block).run  end
+  def shared(name, &block)    Bacon::Shared[name] = block                     end
 end
 
 
