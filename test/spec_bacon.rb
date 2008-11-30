@@ -32,7 +32,7 @@ describe "Bacon" do
     lambda { should.satisfy { 1 == 1 } }.should succeed
     lambda { should.satisfy { 1 } }.should succeed
 
-    lambda { should.satisfy { 1 == 2 } }.should fail
+    lambda { should.satisfy { 1 != 1 } }.should fail
     lambda { should.satisfy { false } }.should fail
     lambda { should.satisfy { false } }.should fail
 

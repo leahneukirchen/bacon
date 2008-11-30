@@ -6,6 +6,7 @@
 Bacon is a small RSpec clone weighing less than 350 LoC but
 nevertheless providing all essential features.
 
+
 == Whirl-wind tour
 
     require 'bacon'
