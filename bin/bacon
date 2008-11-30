@@ -49,6 +49,9 @@ opts = OptionParser.new("", 24, '  ') { |opts|
   opts.on("-p", "--tap",     "do TAP (Test Anything Protocol) output") {
     output = 'TapOutput'
   }
+  opts.on("-k", "--knock",   "do Knock output") {
+    output = 'KnockOutput'
+  }
 
   opts.on("-o", "--output FORMAT",
           "do FORMAT (SpecDox/TestUnit/Tap) output") { |format|
