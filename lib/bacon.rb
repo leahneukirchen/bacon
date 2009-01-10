@@ -329,8 +329,10 @@ class Should
     if Bacon::Counter[:depth] > 0
       Bacon::Counter[:requirements] += 1
       raise Bacon::Error.new(:failed, description)  unless @negated ^ r
+      r
+    else
+      @negated ? !r : !!r
     end
-    @negated ^ r ? r : false
   end
 
   def method_missing(name, *args, &block)
