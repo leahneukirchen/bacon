@@ -113,7 +113,7 @@ http://github.com/chneukirchen/bacon
 
     s.author          = 'Christian Neukirchen'
     s.email           = 'chneukirchen@gmail.com'
-    s.homepage        = 'http://chneukirchen.org/repos/bacon'
+    s.homepage        = 'http://github.com/chneukirchen/bacon'
   end
 
   Rake::GemPackageTask.new(spec) do |p|
