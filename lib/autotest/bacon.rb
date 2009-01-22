@@ -31,6 +31,6 @@ class Autotest::Bacon < Autotest
     args = files_to_test.keys.flatten.join(' ')
     args = '-a' if args.empty?
     # TODO : make regex to pass to -n using values
-    "#{ruby} -S bacon -o TestUnit #{args}"
+    "#{ruby} -S bacon -I#{libs} -o TestUnit #{args}"
   end
 end
