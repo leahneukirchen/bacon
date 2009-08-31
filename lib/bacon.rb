@@ -237,17 +237,9 @@ end
 
 class Proc
   def raise?(*exceptions)
-    exceptions = [RuntimeError]  if exceptions.empty?
     call
-
-  # Only to work in 1.9.0, rescue with splat doesn't work there right now
-  rescue Object => e
-    case e
-    when *exceptions
-      e
-    else
-      raise e
-    end
+  rescue *(exceptions.empty? ? RuntimeError : exceptions) => e
+    e
   else
     false
   end
@@ -284,7 +276,6 @@ module Kernel
   def describe(*args, &block) Bacon::Context.new(args.join(' '), &block).run  end
   def shared(name, &block)    Bacon::Shared[name] = block                     end
 end
-
 
 class Should
   # Kills ==, ===, =~, eql?, equal?, frozen?, instance_of?, is_a?,

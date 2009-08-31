@@ -1,5 +1,5 @@
 $-w,w = nil, $-w
-require File.join(File.dirname(__FILE__), '../lib/bacon')
+require File.expand_path('../../lib/bacon', __FILE__)
 $-w = w
 
 # Hooray for meta-testing.

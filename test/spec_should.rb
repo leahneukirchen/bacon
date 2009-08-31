@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '../lib/bacon')
+require File.expand_path('../../lib/bacon', __FILE__)
 
 describe "#should shortcut for #it('should')" do
   
