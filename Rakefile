@@ -116,6 +116,8 @@ http://github.com/chneukirchen/bacon
     s.homepage        = 'http://github.com/chneukirchen/bacon'
   end
 
+  task :gem => [:chmod, :changelog]
+
   Rake::GemPackageTask.new(spec) do |p|
     p.gem_spec = spec
     p.need_tar = false
