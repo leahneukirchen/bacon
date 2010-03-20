@@ -344,6 +344,22 @@ describe "shared/behaves_like" do
   behaves_like "another shared context"
 end
 
+describe "Methods" do
+  def the_meaning_of_life
+    42
+  end
+
+  it "should be accessible in a test" do
+    the_meaning_of_life.should == 42
+  end
+
+  describe "when in a sibling context" do
+    it "should be accessible in a test" do
+      the_meaning_of_life.should == 42
+    end
+  end
+end
+
 describe 'describe arguments' do
 
   def check(ctx,name)
