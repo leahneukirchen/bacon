@@ -23,6 +23,7 @@ module Bacon
 
   def self.summary_on_exit
     return  if Counter[:installed_summary] > 0
+    @timer = Time.now
     at_exit {
       handle_summary
       if $!
@@ -68,7 +69,7 @@ module Bacon
     end
 
     def handle_summary
-      puts
+      puts "", "Finished in #{Time.now - @timer} seconds."
       puts ErrorLog  if Backtraces
       puts "%d tests, %d assertions, %d failures, %d errors" %
         Counter.values_at(:specifications, :requirements, :failed, :errors)
