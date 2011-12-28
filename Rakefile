@@ -78,52 +78,6 @@ task :test do
 end
 
 
-begin
-  $" << "sources"  if defined? FromSrc
-  require 'rubygems'
-
-  require 'rake'
-  require 'rake/clean'
-  require 'rake/packagetask'
-  require 'rubygems/package_task'
-  require 'fileutils'
-rescue LoadError
-  # Too bad.
-else
-  spec = Gem::Specification.new do |s|
-    s.name            = "bacon"
-    s.version         = gem_version
-    s.platform        = Gem::Platform::RUBY
-    s.summary         = "a small RSpec clone"
-
-    s.description = <<-EOF
-Bacon is a small RSpec clone weighing less than 350 LoC but
-nevertheless providing all essential features.
-
-http://github.com/chneukirchen/bacon
-    EOF
-
-    s.files           = manifest + %w(RDOX ChangeLog)
-    s.bindir          = 'bin'
-    s.executables     << 'bacon'
-    s.require_path    = 'lib'
-    s.has_rdoc        = true
-    s.extra_rdoc_files = ['README', 'RDOX']
-    s.test_files      = []
-
-    s.author          = 'Christian Neukirchen'
-    s.email           = 'chneukirchen@gmail.com'
-    s.homepage        = 'http://github.com/chneukirchen/bacon'
-  end
-
-  task :gem => [:chmod, :changelog]
-
-  Gem::PackageTask.new(spec) do |p|
-    p.need_tar = false
-    p.need_zip = false
-  end
-end
-
 desc "Generate RDoc documentation"
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--line-numbers' << '--inline-source' <<

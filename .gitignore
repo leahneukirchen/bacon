@@ -6,3 +6,4 @@ ann-*
 *.tar.gz
 doc
 pkg
+*.gem
