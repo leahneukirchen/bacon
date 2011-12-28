@@ -1,5 +1,5 @@
 # Rakefile for Bacon.  -*-ruby-*-
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'rake/testtask'
 
 
@@ -85,7 +85,7 @@ begin
   require 'rake'
   require 'rake/clean'
   require 'rake/packagetask'
-  require 'rake/gempackagetask'
+  require 'rubygems/package_task'
   require 'fileutils'
 rescue LoadError
   # Too bad.
@@ -118,8 +118,7 @@ http://github.com/chneukirchen/bacon
 
   task :gem => [:chmod, :changelog]
 
-  Rake::GemPackageTask.new(spec) do |p|
-    p.gem_spec = spec
+  Gem::PackageTask.new(spec) do |p|
     p.need_tar = false
     p.need_zip = false
   end
