@@ -227,7 +227,7 @@ module Bacon
 
     def raise?(*args, &block); block.raise?(*args); end
     def throw?(*args, &block); block.throw?(*args); end
-    def change?(*args, &block); block.change?(*args); end
+    def change?(&block); lambda{}.change?(&block); end
   end
 end
 
