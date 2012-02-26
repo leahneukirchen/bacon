@@ -62,6 +62,23 @@ describe "Bacon" do
     }.should.raise
   end
 
+  it "should have should.change" do
+    lambda { lambda {}.should.change { Time.now } }.should succeed
+
+    lambda {
+      i = 1
+      lambda { i *= 2 }.should.change { i }
+    }.should succeed
+
+    lambda {
+      i = 0
+      lambda { i *= 2 }.should.change { i }
+    }.should fail
+
+    lambda { should.change { Time.now } }.should succeed
+    lambda { should.change { 42 } }.should fail
+  end
+
   it "should have should.raise with a block" do
     lambda { should.raise { raise "Error" } }.should succeed
     lambda { should.raise(RuntimeError) { raise "Error" } }.should succeed
