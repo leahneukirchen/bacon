@@ -7,6 +7,9 @@ rvm:
 - rbx-19mode
 - jruby-18mode
 - jruby-19mode
+notifications:
+  recipients:
+  - gabriel.horner@gmail.com
 matrix:
   # until issues are fixed
   allow_failures:
