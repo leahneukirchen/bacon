@@ -132,13 +132,13 @@ module Bacon
 
   class Context
     attr_reader :name, :block
-    
+
     def initialize(name, &block)
       @name = name
       @before, @after = [], []
       @block = block
     end
-    
+
     def run
       return  unless name =~ RestrictContext
       Counter[:context_depth] += 1
@@ -160,7 +160,7 @@ module Bacon
       Counter[:specifications] += 1
       run_requirement description, block
     end
-    
+
     def should(*args, &block)
       if Counter[:depth]==0
         it('should '+args.first,&block)
@@ -326,7 +326,7 @@ class Should
       description = ""
     end
 
-    r = yield(@object, *args)
+    r = yield(@object)
     if Bacon::Counter[:depth] > 0
       Bacon::Counter[:requirements] += 1
       raise Bacon::Error.new(:failed, description)  unless @negated ^ r
