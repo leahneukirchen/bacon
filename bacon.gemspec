@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name            = "bacon"
-  s.version         = '1.1.11'
+  s.version         = '1.2.0'
   s.platform        = Gem::Platform::RUBY
   s.summary         = "a small RSpec clone"
 
