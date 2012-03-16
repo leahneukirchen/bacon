@@ -319,14 +319,8 @@ class Should
   alias a  be
   alias an be
 
-  def satisfy(*args, &block)
-    if args.size == 1 && String === args.first
-      description = args.shift
-    else
-      description = ""
-    end
-
-    r = yield(@object, *args)
+  def satisfy(description="", &block)
+    r = yield(@object)
     if Bacon::Counter[:depth] > 0
       Bacon::Counter[:requirements] += 1
       raise Bacon::Error.new(:failed, description)  unless @negated ^ r
