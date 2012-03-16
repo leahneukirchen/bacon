@@ -40,6 +40,14 @@ describe "Bacon" do
     lambda { 2.should.satisfy { |n| n % 2 == 0 } }.should succeed
   end
 
+  it "should have should.==" do
+    lambda { "string1".should == "string1" }.should succeed
+    lambda { "string1".should == "string2" }.should fail
+
+    lambda { [1,2,3].should == [1,2,3] }.should succeed
+    lambda { [1,2,3].should == [1,2,4] }.should fail
+  end
+
   it "should have should.equal" do
     lambda { "string1".should == "string1" }.should succeed
     lambda { "string1".should == "string2" }.should fail
