@@ -71,7 +71,7 @@ describe "Bacon" do
   end
 
   it "should have should.change" do
-    lambda { lambda {}.should.change { Time.now } }.should succeed
+    lambda { lambda {}.should.change { sleep 0.001; Time.now } }.should succeed
 
     lambda {
       i = 1
@@ -83,7 +83,7 @@ describe "Bacon" do
       lambda { i *= 2 }.should.change { i }
     }.should fail
 
-    lambda { should.change { Time.now } }.should succeed
+    lambda { should.change { sleep 0.001; Time.now } }.should succeed
     lambda { should.change { 42 } }.should fail
   end
 
