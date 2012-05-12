@@ -1,4 +1,4 @@
-= Bacon -- small RSpec clone.
+# Bacon -- small RSpec clone.
 
    "Truth will sooner come out from error than from confusion."
                                                ---Francis Bacon
@@ -7,7 +7,7 @@ Bacon is a small RSpec clone weighing less than 350 LoC but
 nevertheless providing all essential features.
 
 
-== Whirl-wind tour
+## Whirl-wind tour
 
     require 'bacon'
     
@@ -125,7 +125,7 @@ As of Bacon 1.1, it also supports Knock:
 (knock is available from http://github.com/chneukirchen/knock/)
 
 
-== Implemented assertions
+## Implemented assertions
 
 * should.<predicate> and should.be.<predicate>
 * should.equal
@@ -137,7 +137,7 @@ As of Bacon 1.1, it also supports Knock:
 * should.satisfy { |object| }
 
 
-== Added core predicates
+## Added core predicates
 
 * Object#true?
 * Object#false?
@@ -147,7 +147,7 @@ As of Bacon 1.1, it also supports Knock:
 * Numeric#close?
 
 
-== before/after
+## before/after
 
 before and after need to be defined before the first specification in
 a context and are run before and after each specification.
@@ -155,7 +155,7 @@ a context and are run before and after each specification.
 As of Bacon 1.1, before and after do nest in nested contexts.
 
 
-== Shared contexts
+## Shared contexts
 
 You can define shared contexts in Bacon like this:
 
@@ -176,7 +176,7 @@ behaves_like in other contexts.  You can use shared contexts to
 structure suites with many recurring specifications.
 
 
-== Matchers
+## Matchers
 
 Custom matchers are simply lambdas returning a boolean value, for
 example:
@@ -191,7 +191,7 @@ You can use modules and extend to group matchers for use in multiple
 contexts.
 
 
-== bacon standalone runner
+## bacon standalone runner
 
   -s, --specdox            do AgileDox-like output (default)
   -q, --quiet              do Test::Unit-like non-verbose output
@@ -207,7 +207,7 @@ If you don't want to use the standalone runner, run
 Bacon.summary_on_exit to install an exit handler showing the summary.
 
 
-== Object#should
+## Object#should
 
 You can use Object#should outside of contexts, where the result of
 assertion will be returned as a boolean.  This is nice for
@@ -220,14 +220,14 @@ demonstrations, quick checks and doctest tests.
     => false
 
 
-== Bacon with autotest
+## Bacon with autotest
 
 Since version 1.0, there is autotest support.  You need to tag your
 test directories (test/ or spec/) by creating an .bacon file there.
 Autotest then will find it.  bin/bacon needs to be in PATH or RUBYPATH.
 
 
-== Converting specs
+## Converting specs
 
 spec-converter is a simple tool to convert test-unit or dust style
 tests to test/spec specs.
@@ -235,7 +235,7 @@ tests to test/spec specs.
 It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
 
 
-== Thanks to
+## Thanks to
 
 * Michael Fellinger, for fixing Bacon for 1.9 and various improvements.
 * Gabriele Renzi, for implementing Context#should.
@@ -244,7 +244,7 @@ It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
 * everyone contributing bug fixes.
 
 
-== History
+## History
 
 * January 7, 2008: First public release 0.9.
 
@@ -272,7 +272,7 @@ It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
   * Small cleanups and more tests.
 
 
-== Contact
+## Contact
 
 Please mail bugs, suggestions and patches to
 <mailto:chneukirchen@gmail.com>.
@@ -282,7 +282,7 @@ http://github.com/chneukirchen/bacon
 git://github.com/chneukirchen/bacon.git
 
 
-== Copying
+## Copying
 
 Copyright (C) 2007, 2008 Christian Neukirchen <purl.org/net/chneukirchen>
 
@@ -290,7 +290,7 @@ Bacon is freely distributable under the terms of an MIT-style license.
 See COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-== Links
+## Links
 
 Behavior-Driven Development:: <http://behaviour-driven.org/>
 RSpec:: <http://rspec.rubyforge.org/>
