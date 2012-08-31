@@ -11,7 +11,7 @@ nevertheless providing all essential features.
 http://github.com/chneukirchen/bacon
   EOF
 
-  s.files           = `git ls-files`.split("\n") - [".gitignore"] + %w(RDOX ChangeLog)
+  s.files           = `git ls-files`.split("\n") - [".gitignore"] + %w(ChangeLog)
   s.bindir          = 'bin'
   s.executables     << 'bacon'
   s.require_path    = 'lib'
