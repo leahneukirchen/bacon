@@ -11,12 +11,12 @@ nevertheless providing all essential features.
 http://github.com/chneukirchen/bacon
   EOF
 
-  s.files           = `git ls-files`.split("\n") - [".gitignore"] + %w(RDOX ChangeLog)
+  s.files           = `git ls-files`.split("\n") - [".gitignore"] + %w()
   s.bindir          = 'bin'
   s.executables     << 'bacon'
   s.require_path    = 'lib'
   s.has_rdoc        = true
-  s.extra_rdoc_files = ['README', 'RDOX']
+  s.extra_rdoc_files = []
   s.test_files      = []
 
   s.author          = 'Christian Neukirchen'
