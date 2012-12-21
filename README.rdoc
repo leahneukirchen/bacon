@@ -284,7 +284,7 @@ git://github.com/chneukirchen/bacon.git
 
 == Copying
 
-Copyright (C) 2007, 2008 Christian Neukirchen <purl.org/net/chneukirchen>
+Copyright (C) 2007, 2008, 2012 Christian Neukirchen <purl.org/net/chneukirchen>
 
 Bacon is freely distributable under the terms of an MIT-style license.
 See COPYING or http://www.opensource.org/licenses/mit-license.php.
