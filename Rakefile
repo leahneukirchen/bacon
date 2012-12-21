@@ -50,20 +50,7 @@ end
 
 desc "Generate a ChangeLog"
 task :changelog do
-  File.open("ChangeLog", "w") { |out|
-    `git log -z`.split("\0").map { |chunk|
-      author = chunk[/Author: (.*)/, 1].strip
-      date = chunk[/Date: (.*)/, 1].strip
-      desc, detail = $'.strip.split("\n", 2)
-      detail ||= ""
-      detail = detail.gsub(/.*darcs-hash:.*/, '')
-      detail.rstrip!
-      out.puts "#{date}  #{author}"
-      out.puts "  * #{desc.strip}"
-      out.puts detail  unless detail.empty?
-      out.puts
-    }
-  }
+  sh "git log --format='%ad  %an <%ae>%n%w(79,2,4)* %s%n%n%w(76,4,4)%b' |grep -v darcs-hash: |cat -s >ChangeLog"
 end
 
 
