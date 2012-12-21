@@ -81,11 +81,11 @@ end
 desc "Generate RDoc documentation"
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--line-numbers' << '--inline-source' <<
-    '--main' << 'README' <<
+    '--main' << 'README.rdoc' <<
     '--title' << 'Bacon Documentation' <<
     '--charset' << 'utf-8'
   rdoc.rdoc_dir = "doc"
-  rdoc.rdoc_files.include 'README'
+  rdoc.rdoc_files.include 'README.rdoc'
   rdoc.rdoc_files.include 'COPYING'
   rdoc.rdoc_files.include 'RDOX'
   rdoc.rdoc_files.include('lib/bacon.rb')

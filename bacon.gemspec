@@ -16,7 +16,7 @@ http://github.com/chneukirchen/bacon
   s.executables     << 'bacon'
   s.require_path    = 'lib'
   s.has_rdoc        = true
-  s.extra_rdoc_files = ['README', 'RDOX']
+  s.extra_rdoc_files = ['README.rdoc', 'RDOX']
   s.test_files      = []
 
   s.author          = 'Christian Neukirchen'
