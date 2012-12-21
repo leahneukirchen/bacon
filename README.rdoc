@@ -262,7 +262,7 @@ It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
   * Add Knock output.
   * Bug fixes.
 
-* XXX, 2012: Fourth public release 1.2.0.
+* December 21th, 2012: Fourth public release 1.2.0.
   * #satisfy will not pass arguments anymore to the block, use lexical scope.
   * Fixed Context#change?.
   * Add support for finding specs named like spec/**/*_spec.rb.
