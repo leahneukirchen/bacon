@@ -61,7 +61,7 @@ end
 
 desc "Run all the tests"
 task :test do
-  ruby "bin/bacon -Ilib --automatic --quiet"
+  ruby "bin/bacon -w -Ilib --automatic --quiet"
 end
 
 
