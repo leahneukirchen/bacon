@@ -284,6 +284,7 @@ describe "before/after" do
   before do
     @a = 1
     @b = 2
+    @c = nil
   end
 
   before do
