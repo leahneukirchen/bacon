@@ -8,7 +8,7 @@ module Bacon; end
 automatic = false
 output = 'SpecDoxOutput'
 
-opts = OptionParser.new("", 24, '  ') { |opts|
+options = OptionParser.new("", 24, '  ') { |opts|
   opts.banner = "Usage: bacon [options] [files | -a] [-- untouched arguments]"
 
   opts.separator ""
@@ -103,7 +103,7 @@ if automatic
 end
 
 if files.empty?
-  puts opts.banner
+  puts options.banner
   exit 1
 end
 
