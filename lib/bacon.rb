@@ -121,6 +121,42 @@ module Bacon
 
   extend SpecDoxOutput          # default
 
+  module InlineErrorDescription
+    def handle_error_description negated, object, name, args
+      desc = negated ? "not " : ""
+      desc << object.inspect << "." << name
+      desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
+    end
+  end
+
+  module NewlineErrorDescription
+    def handle_error_description negated, object, name, args
+      desc = negated ? "not " : ""
+      desc << "\n#{object.inspect}\n.#{name}(\n"
+      desc << args.map{|x|x.inspect}.join(",\n") << "\n) failed"
+    end
+  end
+
+  module DiffErrorDescription
+    def handle_error_description negated, object, name, args
+      require 'tempfile'
+      desc = negated ? "not " : ""
+      Tempfile.open('expect') do |expect|
+        Tempfile.open('was') do |was|
+          expect.puts(object.to_s)
+          expect.close
+          was.puts(args.map{|x|x.to_s}.join(",\n"))
+          was.close
+          desc << "#{object.class}##{name}(\n"
+          desc << `diff #{expect.path} #{was.path}`
+        end
+      end
+      desc << ") failed"
+    end
+  end
+
+  extend InlineErrorDescription # default
+
   class Error < RuntimeError
     attr_accessor :count_as
 
@@ -334,11 +370,7 @@ class Should
 
   def method_missing(name, *args, &block)
     name = "#{name}?"  if name.to_s =~ /\w[^?]\z/
-
-    desc = @negated ? "not " : ""
-    desc << @object.inspect << "." << name.to_s
-    desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
-
+    desc = Bacon.handle_error_description(@negated, @object, name.to_s, args)
     satisfy(desc) { |x| x.__send__(name, *args, &block) }
   end
 
