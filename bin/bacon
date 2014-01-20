@@ -6,6 +6,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '../lib/')
 module Bacon; end
 
 automatic = false
+shuffling = :to_a
 output = 'SpecDoxOutput'
 
 options = OptionParser.new("", 24, '  ') { |opts|
@@ -65,6 +66,10 @@ options = OptionParser.new("", 24, '  ') { |opts|
     $LOAD_PATH.unshift "lib"  if File.directory? "lib"
     automatic = true
   }
+  
+  opts.on("-u", "--shuffle", "shuffle test file order") {
+    shuffling = :shuffle
+  }
 
   opts.on('-n', '--name NAME', String,
           "runs tests matching regexp NAME") { |n|
@@ -112,7 +117,7 @@ require 'bacon'
 Bacon.extend Bacon.const_get(output) rescue abort "No such formatter: #{output}"
 Bacon.summary_on_exit
 
-files.each { |file|
+files.send(shuffling).each { |file|
   load file
 }
 
