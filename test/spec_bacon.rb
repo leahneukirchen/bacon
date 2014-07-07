@@ -375,6 +375,10 @@ describe "Methods" do
     42
   end
 
+  def the_towels
+    yield "DON'T PANIC"
+  end
+
   it "should be accessible in a test" do
     the_meaning_of_life.should == 42
   end
@@ -382,6 +386,12 @@ describe "Methods" do
   describe "when in a sibling context" do
     it "should be accessible in a test" do
       the_meaning_of_life.should == 42
+    end
+
+    it "should pass the block" do
+      the_towels do |label|
+        label.should == "DON'T PANIC"
+      end.should == true
     end
   end
 end
