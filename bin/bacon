@@ -6,7 +6,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '../lib/')
 module Bacon; end
 
 automatic = false
-shuffling = :to_a
+shuffling = [:to_a]
 output = 'SpecDoxOutput'
 
 options = OptionParser.new("", 24, '  ') { |opts|
@@ -67,8 +67,8 @@ options = OptionParser.new("", 24, '  ') { |opts|
     automatic = true
   }
   
-  opts.on("-u", "--shuffle", "shuffle test file order") {
-    shuffling = :shuffle
+  opts.on("-u", "--shuffle [SEED]", Integer, "shuffle test file order using optional SEED") { |n|
+    shuffling = [:shuffle, n ? { random: Random.new(n) } : {}]
   }
 
   opts.on('-n', '--name NAME', String,
@@ -117,7 +117,7 @@ require 'bacon'
 Bacon.extend Bacon.const_get(output) rescue abort "No such formatter: #{output}"
 Bacon.summary_on_exit
 
-files.send(shuffling).each { |file|
+files.send(*shuffling).each { |file|
   load file
 }
 
