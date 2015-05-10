@@ -232,7 +232,7 @@ Autotest then will find it.  bin/bacon needs to be in PATH or RUBYPATH.
 spec-converter is a simple tool to convert test-unit or dust style
 tests to test/spec specs.
 
-It can be found at http://opensource.thinkrelevance.com/wiki/spec_converter.
+It can be found at https://github.com/relevance/spec_converter.
 
 
 == Thanks to
