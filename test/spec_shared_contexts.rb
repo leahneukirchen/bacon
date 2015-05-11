@@ -292,12 +292,12 @@ describe "before/after" do
   end
 
   after do
-    @a.should.equal 3
+    @a.should.equal 2
+    @a = 3
   end
 
   after do
-    @a.should.equal 2
-    @a = 3
+    @a.should.equal 3
   end
 
   it "should run in the right order" do
@@ -323,12 +323,9 @@ describe "before/after" do
       @a = 5
     end
 
-    after do
-      @a = 2
-    end
-
     it "should run in the right order" do
       @a.should.equal 5
+      @a = 2
     end
   end
 

@@ -187,7 +187,7 @@ module Bacon
                               "empty specification: #{@name} #{description}")
             end
             begin
-              @after.each { |block| instance_eval(&block) }
+              @after.reverse.each { |block| instance_eval(&block) }
             rescue Object => e
               raise e  unless rescued
             end
