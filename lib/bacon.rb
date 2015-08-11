@@ -218,8 +218,8 @@ module Bacon
     def describe(*args, &block)
       context = Bacon::Context.new(args.join(' '), &block)
       (parent_context = self).methods(false).each {|e|
-        (class << context; self; end).send(:define_method, e) { |*args2|
-          parent_context.send(e, *args2)
+        (class << context; self; end).send(:define_method, e) { |*args2, &block2|
+          parent_context.send(e, *args2, &block2)
         }
       }
       @before.each { |b| context.before(&b) }
