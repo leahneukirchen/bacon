@@ -192,6 +192,8 @@ module Bacon
               raise e  unless rescued
             end
           end
+        rescue SystemExit, Interrupt
+          raise # Re-raise signal to kill the test run
         rescue Object => e
           ErrorLog << "#{e.class}: #{e.message}\n"
           e.backtrace.find_all { |line| line !~ /bin\/bacon|\/bacon\.rb:\d+/ }.
