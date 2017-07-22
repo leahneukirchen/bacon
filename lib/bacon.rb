@@ -11,7 +11,7 @@ module Bacon
   VERSION = "1.2"
 
   Counter = Hash.new(0)
-  ErrorLog = ""
+  ErrorLog = "".dup
   Shared = Hash.new { |_, name|
     raise NameError, "no such context: #{name.inspect}"
   }
@@ -337,7 +337,7 @@ class Should
   def method_missing(name, *args, &block)
     name = "#{name}?"  if name.to_s =~ /\w[^?]\z/
 
-    desc = @negated ? "not " : ""
+    desc = @negated ? "not ".dup : "".dup
     desc << @object.inspect << "." << name.to_s
     desc << "(" << args.map{|x|x.inspect}.join(", ") << ") failed"
 
