@@ -19,7 +19,7 @@ http://github.com/chneukirchen/bacon
   s.extra_rdoc_files = ['README.rdoc', 'RDOX']
   s.test_files      = []
 
-  s.author          = 'Christian Neukirchen'
-  s.email           = 'chneukirchen@gmail.com'
+  s.author          = 'Leah Neukirchen'
+  s.email           = 'leah@vuxu.org'
   s.homepage        = 'http://github.com/chneukirchen/bacon'
 end
