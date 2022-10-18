@@ -3,6 +3,7 @@ Gem::Specification.new do |s|
   s.version         = '1.2.0'
   s.platform        = Gem::Platform::RUBY
   s.summary         = "a small RSpec clone"
+  s.license         = "MIT"
 
   s.description = <<-EOF
 Bacon is a small RSpec clone weighing less than 350 LoC but
