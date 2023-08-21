@@ -292,7 +292,6 @@ See COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 == Links
 
-Behavior-Driven Development:: <http://behaviour-driven.org/>
 RSpec:: <http://rspec.rubyforge.org/>
 test/spec:: <http://test-spec.rubyforge.org/>
 
